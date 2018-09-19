@@ -15,7 +15,7 @@ version string as well as the supported raster and vector formats:
 
     docker run epn-vespa/gdal-fits
 
-The following command will open a bash shell in an Fedora based environment
+The following command will open a bash shell in a Fedora based environment
 with GDAL available:
 
     docker run -t -i epn-vespa/gdal-fits /bin/bash
