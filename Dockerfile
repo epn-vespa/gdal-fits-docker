@@ -1,20 +1,20 @@
 ##
-# geodata/gdal
+# epn-vespa/gdal-fits
 #
-# This creates an Ubuntu derived base image that installs the latest GDAL
-# subversion checkout compiled with a broad range of drivers.  The build process
+# This creates a Fedora derived base image that installs the GDAL
+# git clone compiled with the improved FITS driver.  The build process
 # is based on that defined in
-# <https://github.com/OSGeo/gdal/blob/trunk/.travis.yml>
+# <https://voparis-confluence.obspm.fr/display/VES/GDAL+with+FITS>
 #
 
-# Ubuntu 14.04 Trusty Tahyr
-FROM ubuntu:trusty
+# Fedora 28
+FROM fedora:28
 
-MAINTAINER Homme Zwaagstra <hrz@geodata.soton.ac.uk>
+MAINTAINER Chiara Marmo <chiara.marmo@u-psud.fr>
 
 # Install the application.
-ADD . /usr/local/src/gdal-docker/
-RUN /usr/local/src/gdal-docker/build.sh
+ADD . /usr/local/src/gdal-fits-docker/
+RUN /usr/local/src/gdal-fits-docker/build.sh
 
 # Externally accessible data is by default put in /data
 WORKDIR /data
