@@ -21,18 +21,19 @@ DIR=$(dirname "$(readlink -f "$0")")
 #export LANG
 
 # Install prerequisites.
-dnf install -y \
+dnf install -y unzip \
 #        software-properties-common \
 #        wget \
-        unzip \
 #        subversion \
-        ccache-devel \
         clang-devel \
 #        patch \
         python3-devel \
         cfitsio-devel \
         automake \
-        autoconf
+        autoconf \
+        make \
+        python3-astropy python3-numpy python3-matplotlib \
+        jupyter-notebook
 
 # Everything happens under here.
 cd /tmp
@@ -45,6 +46,15 @@ cd /tmp/gdal/gdal
 sh autogen.sh
 make -j
 make install
+
+# Compile python bindings
+cd swig/python
+python3 setup.py build
+python3 setup.py install
+
+# Linking libraries in standardpath (because python is looking there)
+cd /usr/lib64
+ln -s /usr/local/lib64/libgdal* .
 
 # Apply our build patches.
 #patch ./gdal/ci/travis/trusty_clang/before_install.sh ${DIR}/before_install.sh.patch
