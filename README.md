@@ -8,6 +8,15 @@ based on that defined
 Python bindings are also built.
 QGIS will coming soon
 
+## Download
+
+```
+$ git clone https://github.com/epn-vespa/gdal-fits-docker.git
+$ cd gdal-fits-docker
+$ git checkout <your-preferred-distro-branch>
+$ ./build_docker.sh
+```
+
 ## Usage
 
 Running the container without any arguments will by default output the GDAL
