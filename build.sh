@@ -4,7 +4,8 @@
 # Install GDAL from within a docker container
 #
 # This script is designed to be run from within a docker container in order to
-# install GDAL.
+# install GDAL. It delegates to `before_install.sh` and `install.sh` which are
+# patched from the Travis CI configuration in the GDAL repository.
 #
 
 set -e
@@ -12,38 +13,42 @@ set -e
 DIR=$(dirname "$(readlink -f "$0")")
 #GDAL_VERSION=$(cat ${DIR}/gdal-checkout.txt)
 
-#export DEBIAN_FRONTEND=noninteractive
+export DEBIAN_FRONTEND=noninteractive
 
 # Set the locale. Required for subversion to work on the repository.
-#update-locale LANG="C.UTF-8"
-#dpkg-reconfigure locales
-#. /etc/default/locale
-#export LANG
+update-locale LANG="C.UTF-8"
+dpkg-reconfigure locales
+. /etc/default/locale
+export LANG
 
-# Install prerequisites.
-dnf install -y unzip \
-#        software-properties-common \
-#        wget \
-#        subversion \
-        clang-devel \
-#        patch \
-        python3-devel \
-        cfitsio-devel \
+# Instell prerequisites.
+apt-get update -y
+apt-get install -y \
+        software-properties-common \
+        #wget \
+        unzip \
+        #subversion \
+        ccache \
+        #clang-devel cfitsio-devel \
+        llvm-dev patch libcfitsio3-dev g++\
+        patch \
         automake \
         autoconf \
         make \
-        python3-astropy python3-numpy python3-matplotlib \
-        jupyter-notebook
+        python-dev \
+        ant
+        #python3-astropy python3-numpy python3-matplotlib jupyter-notebook
 
-# Everything happens under here.
+# everything happens under here.
 cd /tmp
 
-# Get GDAL.
-git clone https://github.com/epn-vespa/gdal.git .
+# get gdal.
+#git clone https://github.com/epn-vespa/gdal.git .
 
 # Install GDAL.
 cd /tmp/gdal/gdal
 sh autogen.sh
+sh configure # that was missing see [linux - config.status not found - Super User](https://superuser.com/a/272116)
 make -j
 make install
 
