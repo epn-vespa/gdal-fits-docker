@@ -1,6 +1,6 @@
 # GDAL FITS Docker Images
 
-This is a Fedora derived image containing the Geospatial Data Abstraction
+This is an Ubuntu derived image containing the Geospatial Data Abstraction
 Library (GDAL) compiled with the improved FITS driver. The build process is
 based on that defined
 [here](https://voparis-confluence.obspm.fr/display/VES/GDAL+with+FITS).
