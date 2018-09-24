@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 ##
 # Install GDAL from within a docker container
@@ -11,7 +11,6 @@
 set -e
 
 DIR=$(dirname "$(readlink -f "$0")")
-#GDAL_VERSION=$(cat ${DIR}/gdal-checkout.txt)
 
 export DEBIAN_FRONTEND=noninteractive
 
@@ -21,15 +20,13 @@ dpkg-reconfigure locales
 . /etc/default/locale
 export LANG
 
-# Instell prerequisites.
+# Install prerequisites.
 apt-get update -y
 apt-get install -y \
         software-properties-common \
-        #wget \
         unzip \
-        #subversion \
         ccache \
-        #clang-devel cfitsio-devel \
+        cfitsio-dev \
         llvm-dev patch libcfitsio3-dev g++\
         patch \
         automake \
@@ -40,14 +37,11 @@ apt-get install -y \
         #python3-astropy python3-numpy python3-matplotlib jupyter-notebook
 
 # everything happens under here.
-cd /tmp
-
-# get gdal.
-#git clone https://github.com/epn-vespa/gdal.git .
+cd /usr/local/src/gdal-fits-docker/
 
 # Install GDAL.
-cd /tmp/gdal/gdal
-sh autogen.sh
+cd gdal/gdal
+./autogen.sh
 sh configure # that was missing see [linux - config.status not found - Super User](https://superuser.com/a/272116)
 make -j
 make install

@@ -10,11 +10,12 @@
 # Ubuntu 14.04 Trusty Tahyr
 FROM ubuntu:trusty
 
-MAINTAINER Homme Zwaagstra <hrz@geodata.soton.ac.uk>
+MAINTAINER Chiara Marmo <chiara.marmo@u-psud.fr>
 
 # Install the application.
-ADD . /usr/local/src/gdal-docker/
-RUN /usr/local/src/gdal-docker/build.sh
+RUN ls /usr/local/src/
+ADD . /usr/local/src/gdal-fits-docker/
+RUN /usr/local/src/gdal-fits-docker/build.sh
 
 # Externally accessible data is by default put in /data
 WORKDIR /data
