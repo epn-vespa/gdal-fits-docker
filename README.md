@@ -22,12 +22,12 @@ $ ./build_docker.sh
 Running the container without any arguments will by default output the GDAL
 version string as well as the supported raster and vector formats:
 
-    docker run epn-vespa/gdal-fits
+    docker run gdal-fits
 
-The following command will open a bash shell in a Fedora based environment
-with GDAL available:
+The following command will open a bash shell in a Ubuntu based environment
+with GDAL for FITS available:
 
-    docker run -t -i epn-vespa/gdal-fits /bin/bash
+    docker run -t -i gdal-fits /bin/bash
 
 You will most likely want to work with data on the host system from within the
 docker container, in which case run the container with the -v option. Assuming
@@ -35,14 +35,8 @@ you have a raster called `test.fits` in your current working directory on your
 host system, running the following command should invoke `gdalinfo` on
 `test.fits`:
 
-    docker run -v $(pwd):/data epn-vespa/gdal-fits gdalinfo test.fits
+    docker run -v $(pwd):/data gdal-fits gdalinfo test.fits
 
 This works because the current working directory is set to `/data` in the
 container, and you have mapped the current working directory on your host to
 `/data`.
-
-Note that the image tagged `latest`, GDAL represents the latest code *at the
-time the image was built*. If you want to include the most up-to-date commits
-then you need to build the docker image yourself locally along these lines:
-
-    docker build -t geodata/gdal:local git://github.com/epn-vespa/gdal-fits-docker/
