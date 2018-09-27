@@ -13,7 +13,7 @@ QGIS will coming soon
 ```
 $ git clone https://github.com/epn-vespa/gdal-fits-docker.git
 $ cd gdal-fits-docker
-$ git checkout <your-preferred-distro-branch>
+$ git checkout ubuntu
 $ ./build_docker.sh
 ```
 
