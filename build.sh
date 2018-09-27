@@ -22,8 +22,8 @@ dnf install -y unzip \
         make \
         python3-devel \
         ant \
-        python3-astropy python3-numpy python3-matplotlib #\
-        #jupyter-notebook
+        python3-astropy python3-numpy python3-matplotlib \
+        python3-jupyterlab-launcher.noarch
 
 # Everything happens under here.
 cd /usr/local/src/gdal-fits-docker/
@@ -32,7 +32,7 @@ cd /usr/local/src/gdal-fits-docker/
 cd gdal/gdal
 ./autogen.sh
 ./configure
-make #-s
+make -j 4 #-s
 make -s install
 
 # Compile python bindings
@@ -45,6 +45,6 @@ cd /usr/lib64
 ln -s /usr/local/lib64/libgdal* .
 
 # Clean up.
-#apt-get autoremove -y
-#apt-get clean
-#rm -rf /var/lib/apt/lists/partial/* /tmp/* /var/tmp/*
+dnf autoremove -y
+dnf clean all
+
