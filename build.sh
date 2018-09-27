@@ -10,42 +10,30 @@
 set -e
 
 DIR=$(dirname "$(readlink -f "$0")")
-#GDAL_VERSION=$(cat ${DIR}/gdal-checkout.txt)
-
-#export DEBIAN_FRONTEND=noninteractive
-
-# Set the locale. Required for subversion to work on the repository.
-#update-locale LANG="C.UTF-8"
-#dpkg-reconfigure locales
-#. /etc/default/locale
-#export LANG
 
 # Install prerequisites.
 dnf install -y unzip \
-#        software-properties-common \
-#        wget \
-#        subversion \
-        clang-devel \
-#        patch \
-        python3-devel \
+        ccache \
         cfitsio-devel \
+        jasper-devel \
+        llvm-devel patch gcc-c++ \
         automake \
         autoconf \
         make \
-        python3-astropy python3-numpy python3-matplotlib \
-        jupyter-notebook
+        python3-devel \
+        ant \
+        python3-astropy python3-numpy python3-matplotlib #\
+        #jupyter-notebook
 
 # Everything happens under here.
-cd /tmp
-
-# Get GDAL.
-git clone https://github.com/epn-vespa/gdal.git .
+cd /usr/local/src/gdal-fits-docker/
 
 # Install GDAL.
-cd /tmp/gdal/gdal
-sh autogen.sh
-make -j
-make install
+cd gdal/gdal
+./autogen.sh
+./configure
+make #-s
+make -s install
 
 # Compile python bindings
 cd swig/python
@@ -55,15 +43,6 @@ python3 setup.py install
 # Linking libraries in standardpath (because python is looking there)
 cd /usr/lib64
 ln -s /usr/local/lib64/libgdal* .
-
-# Apply our build patches.
-#patch ./gdal/ci/travis/trusty_clang/before_install.sh ${DIR}/before_install.sh.patch
-#patch ./gdal/ci/travis/trusty_clang/install.sh ${DIR}/install.sh.patch
-
-# Do the build.
-#. ./gdal/ci/travis/trusty_clang/before_install.sh
-#. ./gdal/ci/travis/trusty_clang/install.sh
-
 
 # Clean up.
 #apt-get autoremove -y
