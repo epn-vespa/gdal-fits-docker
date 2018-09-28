@@ -24,7 +24,7 @@ $ ./build_docker.sh [user] [user_id]
 
 The container will not run commands as root, if you need to correctly access
 your data stored in the current directory, you will need to add user and user_id
-as the current user and user_id.
+as the current user and user_id. By default user is 'user' and user_id is 1000.
 
 ## Usage
 
