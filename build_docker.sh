@@ -10,7 +10,7 @@ fi
 if [ $2 ]
 then
   USER_ID=$2
-  options=`echo "$options USER_ID=$USER_ID"`
+  options=`echo "$options --build-arg USER_ID=$USER_ID"`
 fi
 
 
@@ -20,5 +20,7 @@ echo 'gdal/' > .gitignore
 git clone https://github.com/epn-vespa/gdal.git
 # this removes almost 200MB of git history
 rm -rf gdal/.git
+
+echo "Running: docker build $options -t gdal-fits ."
 docker build $options -t gdal-fits .
 

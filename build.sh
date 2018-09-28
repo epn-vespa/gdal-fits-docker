@@ -23,7 +23,8 @@ dnf install -y unzip \
         python3-devel \
         ant \
         python3-astropy python3-numpy python3-matplotlib \
-        python3-jupyterlab-launcher.noarch
+        python3-jupyterlab-launcher.noarch \
+        firefox
 
 # Everything happens under here.
 cd /usr/local/src/gdal-fits-docker/
@@ -42,7 +43,7 @@ python3 setup.py install
 
 # Linking libraries in standardpath (because python is looking there)
 cd /usr/lib64
-ln -s /usr/local/lib64/libgdal* .
+ln -s /usr/local/lib/libgdal* .
 
 # Clean up.
 dnf autoremove -y

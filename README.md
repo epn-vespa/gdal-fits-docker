@@ -14,8 +14,17 @@ QGIS will coming soon
 $ git clone https://github.com/epn-vespa/gdal-fits-docker.git
 $ cd gdal-fits-docker
 $ git checkout fedora
-$ ./build_docker.sh
 ```
+
+## Build
+
+```
+$ ./build_docker.sh [user] [user_id]
+```
+
+The container will not run commands as root, if you need to correctly access
+your data stored in the current directory, you will need to add user and user_id
+as the current user and user_id.
 
 ## Usage
 
