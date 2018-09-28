@@ -47,3 +47,23 @@ host system, running the following command should invoke `gdalinfo` on
 This works because the current working directory is set to `/data` in the
 container, and you have mapped the current working directory on your host to
 `/data`.
+
+### Troubleshooting
+
+#### On Linux
+
+- Permission denied when trying to connect to the socket: see [Docker postinstall documentation](https://docs.docker.com/install/linux/linux-postinstall/)
+- Permission denied on directories and files: create a user with the same name UID and GID
+as the owner of the directory and the files.
+- Permission denied on directories and files (still, on Fedora): this is a SElinux issue
+see [this page](https://medium.com/@gloriapalmagonzalez/permission-denied-on-accessing-host-directory-in-docker-5ca5ee76e8b1)
+
+#### On Windows
+
+- The input device is not a TTY: if you are using mintty, try prefixing the command with
+'winpty', see the solution [here](https://willi.am/blog/2016/08/08/docker-for-windows-interactive-sessions-in-mintty-git-bash/).
+- No matching manifest for unknown in the manifest list entries: your docker is configured
+to work with Windows containers, this is a linux container so switch to linux containers in
+docker configuration.
+- Strange errors in executing shell scripts: check your clone configuration for EOL in git
+for windows, must be "checkout as is, push as Unix style".
