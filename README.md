@@ -69,3 +69,4 @@ to work with Windows containers, this is a linux container so switch to linux co
 docker configuration.
 - Strange errors in executing shell scripts: check your clone configuration for EOL in git
 for windows, must be "checkout as is, push as Unix style".
+- docker.exe: Error response from daemon: Mount denied: The source path "C:/;C" doesn't exist and is not known to Docker: check the solution [here](https://blogs.msdn.microsoft.com/stevelasker/2016/06/14/configuring-docker-for-windows-volumes/)
