@@ -13,28 +13,22 @@ DIR=$(dirname "$(readlink -f "$0")")
 
 export DEBIAN_FRONTEND=noninteractive
 
-# Set the locale. Required for subversion to work on the repository.
-update-locale LANG="C.UTF-8"
-dpkg-reconfigure locales
-. /etc/default/locale
-export LANG
-
 # Install prerequisites.
 apt-get update -y
 apt-get install -y \
         software-properties-common \
         unzip \
         ccache \
-        cfitsio-dev \
-        llvm-dev patch libcfitsio3-dev g++\
+        libcfitsio-dev \
+        llvm-dev patch g++\
         patch \
         automake \
         autoconf \
         make \
         python3-dev \
         ant \
-        python3-astropy python3-numpy python3-matplotlib #\
-        #jupyter-notebook
+        python3-astropy python3-numpy python3-matplotlib \
+        firefox jupyter-notebook
 
 # everything happens under here.
 cd /usr/local/src/gdal-fits-docker/
@@ -43,7 +37,7 @@ cd /usr/local/src/gdal-fits-docker/
 cd gdal/gdal
 ./autogen.sh
 ./configure
-make #-s
+make -j 4 #-s
 make -s install
 
 # Compile python bindings
