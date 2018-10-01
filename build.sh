@@ -45,6 +45,18 @@ python3 setup.py install
 cd /usr/lib64
 ln -s /usr/local/lib/libgdal* .
 
+# Install QGIS
+cd QGIS-final-3_2_2/
+mkdir build-master; cd build-master;
+cmake -DGDAL_CONFIG=/usr/local/bin/gdal-config -DGDAL_CONFIG_PREFER_PATH=/usr/local/bin -DGDAL_INCLUDE_DIR=/usr/local/include -DGDAL_LIBRARY=/usr/local/lib/libgdal.so ../
+make -j 4
+make -s install
+
+# allow access from localhost
+#xhost + 127.0.0.1
+# export DISPLAY
+#export DISPLAY=localhost:0
+
 # Clean up.
 dnf autoremove -y
 dnf clean all
