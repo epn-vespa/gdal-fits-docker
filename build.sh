@@ -46,7 +46,7 @@ cd /usr/lib64
 ln -s /usr/local/lib/libgdal* .
 
 # Install QGIS
-cd QGIS-final-3_2_2/
+cd QGIS-final-3_2_3/
 mkdir build-master; cd build-master;
 cmake -DGDAL_CONFIG=/usr/local/bin/gdal-config -DGDAL_CONFIG_PREFER_PATH=/usr/local/bin -DGDAL_INCLUDE_DIR=/usr/local/include -DGDAL_LIBRARY=/usr/local/lib/libgdal.so ../
 make -j 4
