@@ -25,8 +25,8 @@ rm -rf gdal/.git
 
 # copy and extract the qgis latest version source locally
 wget https://github.com/qgis/QGIS/archive/final-3_2_2.tar.gz
-tar zxvf QGIS-final-3_2_2.tar.gz
-rm QGIS-final-3_2_2.tar.gz
+tar zxvf final-3_2_2.tar.gz
+rm final-3_2_2.tar.gz
 
 echo "Running: docker build $options -t gdal-fits ."
 docker build $options -t gdal-fits .
