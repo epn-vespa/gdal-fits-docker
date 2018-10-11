@@ -19,15 +19,19 @@ dnf install -y unzip \
         llvm-devel patch gcc-c++ \
         automake \
         autoconf \
-        make \
-        python3-devel \
-        ant \
+        make cmake qt5-devel \
+        clang expat-devel proj-devel gsl-devel python3-future qwt-devel sip-devel \
+        python3-devel qca-qt5-devel qca-qt5-ossl python3-qt5-devel python3-sip-devel \
+        ant flex bison geos-devel libzip-devel libsqlite3x-devel \
+        python3-qscintilla-qt5-devel qscintilla-qt5-devel python3-qscintilla-devel python3-qscintilla-qt5 \
+        libspatialite-devel spatialindex-devel \
         python3-astropy python3-numpy python3-matplotlib \
         python3-jupyterlab-launcher.noarch \
         firefox
 
 # Everything happens under here.
 cd /usr/local/src/gdal-fits-docker/
+ls
 
 # Install GDAL.
 cd gdal/gdal
@@ -40,17 +44,18 @@ make -s install
 cd swig/python
 python3 setup.py build
 python3 setup.py install
+cd /usr/local/src/gdal-fits-docker/
+
+# Install QGIS
+#cd QGIS-final-3_2_3
+#mkdir build-master; cd build-master;
+#cmake -DGDAL_CONFIG=/usr/local/bin/gdal-config -DGDAL_CONFIG_PREFER_PATH=/usr/local/bin -DGDAL_INCLUDE_DIR=/usr/local/include -DGDAL_LIBRARY=/usr/local/lib/libgdal.so -DWITH_GRASS7=FALSE ../
+#make -j 4
+#make -s install
 
 # Linking libraries in standardpath (because python is looking there)
 cd /usr/lib64
 ln -s /usr/local/lib/libgdal* .
-
-# Install QGIS
-cd QGIS-final-3_2_3/
-mkdir build-master; cd build-master;
-cmake -DGDAL_CONFIG=/usr/local/bin/gdal-config -DGDAL_CONFIG_PREFER_PATH=/usr/local/bin -DGDAL_INCLUDE_DIR=/usr/local/include -DGDAL_LIBRARY=/usr/local/lib/libgdal.so ../
-make -j 4
-make -s install
 
 # allow access from localhost
 #xhost + 127.0.0.1
