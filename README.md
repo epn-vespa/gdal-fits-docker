@@ -26,17 +26,16 @@ The container will not run commands as root, if you need to correctly access
 your data stored in the current directory, you will need to add user and user_id
 as the current user and user_id. By default user is 'user' and user_id is 1000.
 
-## Usage
+## Usage (on Linux)
 
-Running the container without any arguments will by default output the GDAL
-version string as well as the supported raster and vector formats:
+Running the container with X server and diplay set will open QGIS:
 
-    docker run gdal-fits
+    docker run --rm -it -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=unix:1 gdal-fits
 
 The following command will open a bash shell in a Fedora based environment
-with GDAL available:
+with GDAL and QGIS available:
 
-    docker run -t -i gdal-fits /bin/bash
+    docker run --rm -it -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=unix:1 gdal-fits /bin/bash
 
 You will most likely want to work with data on the host system from within the
 docker container, in which case run the container with the -v option. Assuming
