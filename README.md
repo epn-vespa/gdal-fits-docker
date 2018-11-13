@@ -49,6 +49,12 @@ This works because the current working directory is set to `/data` in the
 container, and you have mapped the current working directory on your host to
 `/data`.
 
+Alternatively you can use [dockeri](https://github.com/chbrandt/dockeri) to easily start the graphical interface:
+
+    dockeri gdal-fits
+
+will directly open QGIS.
+
 ### Troubleshooting
 
 #### On Linux
