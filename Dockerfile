@@ -24,10 +24,14 @@ VOLUME ["/data"]
 ARG USER_ID=1000
 ARG USER=user
 RUN groupadd -r -g ${USER_ID} ${USER}
-RUN useradd -r -u ${USER_ID} -g ${USER} -d /data/${USER} ${USER}
+RUN mkdir /data/${USER}
+RUN useradd -r -u ${USER_ID} -g ${USER} -m -d /data/${USER} ${USER}
 
 # Run from USER
 USER ${USER}
 
 # Output version and capabilities by default.
-CMD gdalinfo --version && gdalinfo --formats && ogrinfo --formats
+#CMD gdalinfo --version && gdalinfo --formats && ogrinfo --formats
+
+# Open QGIS FITS compatible by default
+CMD qgis
