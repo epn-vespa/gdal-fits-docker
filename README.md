@@ -5,8 +5,7 @@ Library (GDAL) compiled with the improved FITS driver. The build process is
 based on that defined
 [here](https://voparis-confluence.obspm.fr/display/VES/GDAL+with+FITS).
 
-Python3 bindings are also built.
-QGIS will coming soon
+Python bindings and QGIS are also built.
 
 ## Download
 
