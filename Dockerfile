@@ -13,7 +13,6 @@ FROM ubuntu:bionic
 MAINTAINER Chiara Marmo <chiara.marmo@u-psud.fr>
 
 # Install the application.
-RUN ls /usr/local/src/
 ADD . /usr/local/src/gdal-fits-docker/
 RUN /usr/local/src/gdal-fits-docker/build.sh
 
@@ -31,4 +30,8 @@ RUN useradd -r -u ${USER_ID} -g ${USER} -d /data/${USER} ${USER}
 USER ${USER}
 
 # Output version and capabilities by default.
-CMD gdalinfo --version && gdalinfo --formats && ogrinfo --formats
+#CMD gdalinfo --version && gdalinfo --formats && ogrinfo --formats
+
+# Open QGIS FITS compatible by default
+CMD qgis
+

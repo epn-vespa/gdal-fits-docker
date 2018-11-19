@@ -5,8 +5,7 @@ Library (GDAL) compiled with the improved FITS driver. The build process is
 based on that defined
 [here](https://voparis-confluence.obspm.fr/display/VES/GDAL+with+FITS).
 
-Python bindings are also built.
-QGIS will coming soon
+Python bindings and QGIS are also built.
 
 ## Download
 
@@ -26,15 +25,13 @@ The container will not run commands as root, if you need to correctly access you
 
 ## Usage
 
-Running the container without any arguments will by default output the GDAL
-version string as well as the supported raster and vector formats:
+Running the container with X server and diplay set will open QGIS:
 
-    docker run gdal-fits
+    docker run --rm -it -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=unix:1 gdal-fits
 
-The following command will open a bash shell in a Ubuntu based environment
-with GDAL for FITS available:
+The following command will open a bash shell in a Fedora based environment with GDAL and QGIS available:
 
-    docker run -t -i gdal-fits /bin/bash
+    docker run --rm -it -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=unix:1 gdal-fits /bin/bash
 
 You will most likely want to work with data on the host system from within the
 docker container, in which case run the container with the -v option. Assuming
@@ -47,6 +44,12 @@ host system, running the following command should invoke `gdalinfo` on
 This works because the current working directory is set to `/data` in the
 container, and you have mapped the current working directory on your host to
 `/data`.
+
+Alternatively you can use [dockeri](https://github.com/chbrandt/dockeri) to easily start the graphical interface:
+
+    dockeri gdal-fits
+
+will directly open QGIS.
 
 ### Troubleshooting
 
