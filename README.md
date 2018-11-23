@@ -48,6 +48,12 @@ This works because the current working directory is set to `/data` in the
 container, and you have mapped the current working directory on your host to
 `/data`.
 
+Similarly
+
+    docker run --rm -it -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=unix:0 -v $(pwd):/data gdal-fits
+
+will open QGIS making available the data in your current directory in the `/data` volume. 
+
 Alternatively you can use [dockeri](https://github.com/chbrandt/dockeri) to easily start the graphical interface:
 
     dockeri gdal-fits
