@@ -7,8 +7,8 @@
 # <https://voparis-confluence.obspm.fr/display/VES/GDAL+with+FITS>
 #
 
-# Fedora 28
-FROM fedora:28
+# Fedora 29
+FROM fedora:29
 
 MAINTAINER Chiara Marmo <chiara.marmo@u-psud.fr>
 
@@ -31,4 +31,8 @@ RUN groupadd -r -g ${USER_ID} ${USER}     &&\
 USER ${USER}
 
 # Open QGIS FITS compatible by default
-CMD qgis
+#CMD qgis
+
+# gdalinfo version
+CMD gdalinfo --version
+

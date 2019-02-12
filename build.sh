@@ -13,11 +13,11 @@ DIR=$(dirname "$(readlink -f "$0")")
 
 # Install prerequisites.
 dnf install -y unzip \
-        ccache \
+        ccache patchelf \
         cfitsio-devel \
         jasper-devel \
         llvm-devel patch gcc-c++ \
-        automake \
+        libtool automake \
         autoconf \
         make cmake qt5-devel \
         clang expat-devel proj-devel gsl-devel python3-future qwt-devel sip-devel \
@@ -35,8 +35,25 @@ dnf update -y
 cd /usr/local/src/gdal-fits-docker/
 ls
 
+# Compile and install the last version of proj
+# See https://trac.osgeo.org/gdal/wiki/BuildingOnUnixGDAL25dev
+cd proj.4
+./autogen.sh
+CXXFLAGS="-DPROJ_RENAME_SYMBOLS -O2" CFLAGS=$CXXFLAGS ./configure --disable-static --prefix=/usr/
+make -j 7 #-s
+make -s install
+cd /usr/lib64
+# Rename the library to libinternalproj
+mv libproj.so.13.1.1 libinternalproj.so.13.1.1
+ln -s libinternalproj.so.13.1.1 libinternalproj.so.13
+ln -s libinternalproj.so.13.1.1 libinternalproj.so
+rm -f libproj.*
+cd /usr/lib64
+ln -s /usr/lib/libinternalproj* .
+patchelf --set-soname libinternalproj.so libinternalproj.so
+
 # Install GDAL.
-cd gdal/gdal
+cd /usr/local/src/gdal-fits-docker/gdal/gdal
 ./autogen.sh
 ./configure --prefix=/usr/
 make -j 7 #-s
@@ -49,15 +66,16 @@ python3 setup.py install
 cd /usr/local/src/gdal-fits-docker/
 
 # Install QGIS
-cd QGIS-ltr-3_4
-mkdir build-master; cd build-master;
-cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr -DWITH_GRASS7=FALSE ../
-make -j 7
-make -s install
+# Commented out waiting for qgis compatibility for proj6
+#cd QGIS-ltr-3_4
+#mkdir build-master; cd build-master;
+#cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr -DWITH_GRASS7=FALSE ../
+#make -j 7
+#make -s install
 
-# Linking libraries in standardpath
-cd /usr/lib64
-ln -s /usr/lib/libqgis* .
+# Linking libraries in standard path
+#cd /usr/lib64
+#ln -s /usr/lib/libqgis* .
 
 # allow access from localhost
 #xhost + 127.0.0.1
