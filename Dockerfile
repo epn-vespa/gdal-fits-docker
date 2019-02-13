@@ -31,5 +31,8 @@ RUN groupadd -r -g ${USER_ID} ${USER}    &&\
 USER ${USER}
 
 # Open QGIS FITS compatible by default
-CMD qgis
+#CMD qgis
+
+# gdalinfo version
+CMD gdalinfo --version
 
