@@ -7,6 +7,8 @@ based on that defined
 
 Python bindings and QGIS are also built.
 
+NOTA BENE: QGIS compilation is on-hold, waiting for PROJ6 compatibility.
+
 ## Download
 
 ```
