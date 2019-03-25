@@ -33,3 +33,6 @@ USER ${USER}
 # Open QGIS FITS compatible by default
 CMD qgis
 
+# gdalinfo version
+#CMD gdalinfo --version
+

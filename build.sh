@@ -17,11 +17,11 @@ export DEBIAN_FRONTEND=noninteractive
 apt-get update -y
 apt-get install -y \
         software-properties-common bison ca-certificates cmake cmake-curses-gui dh-python doxygen expect \
-        unzip flex git graphviz libexiv2-dev libexpat1-dev libfcgi-dev libgeos-dev libgsl-dev \
+        unzip flex git graphviz libexiv2-dev libexpat1-dev libfcgi-dev libgeos-dev libgsl-dev patchelf \
         ccache libosgearth-dev libpq-dev libproj-dev libqca-qt5-2-dev libqca-qt5-2-plugins \
-        libcfitsio-dev libqt5opengl5-dev libqt5scintilla2-dev libqt5serialport5-dev \
+        libcfitsio-dev libqt5opengl5-dev libqt5scintilla2-dev libqt5serialport5-dev libtool \
         llvm-dev patch g++ libqt5sql5-sqlite libqt5svg5-dev libqt5webkit5-dev libqt5xmlpatterns5-dev \
-        libqwt-qt5-dev libspatialindex-dev libspatialite-dev libsqlite3-dev libsqlite3-mod-spatialite \
+        libqwt-qt5-dev libspatialindex-dev libspatialite-dev sqlite3 libsqlite3-dev libsqlite3-mod-spatialite \
         automake libyaml-tiny-perl libzip-dev locales ninja-build ocl-icd-opencl-dev opencl-headers \
         autoconf pkg-config poppler-utils pyqt5-dev pyqt5-dev-tools pyqt5.qsci-dev python-autopep8 \
         make python3-dateutil python3-dev python3-future python3-httplib2 python3-jinja2 \
@@ -37,11 +37,26 @@ apt-get install -y \
 # everything happens under here.
 cd /usr/local/src/gdal-fits-docker/
 
+# Compile and install the last version of proj
+# See https://trac.osgeo.org/gdal/wiki/BuildingOnUnixGDAL25dev
+cd proj.4
+./autogen.sh
+CXXFLAGS="-DPROJ_RENAME_SYMBOLS -O2" CFLAGS=$CXXFLAGS ./configure --disable-static --prefix=/usr/
+make -j 6 #-s
+make -s install
+cd /usr/lib
+# Rename the library to libinternalproj
+mv libproj.so.15.0.0 libinternalproj.so.15.0.0
+ln -s libinternalproj.so.15.0.0 libinternalproj.so.15
+ln -s libinternalproj.so.15.0.0 libinternalproj.so
+rm -f libproj.*
+patchelf --set-soname libinternalproj.so libinternalproj.so
+
 # Install GDAL.
-cd gdal/gdal
+cd /usr/local/src/gdal-fits-docker/gdal/gdal
 ./autogen.sh
 ./configure --prefix=/usr/
-make -j 7 #-s
+make -j 6 #-s
 make -s install
 
 # Compile python bindings
@@ -51,15 +66,11 @@ python3 setup.py install
 cd /usr/local/src/gdal-fits-docker/
 
 # Install QGIS
-cd QGIS-ltr-3_4
+cd QGIS-final-3_6_0
 mkdir build-master; cd build-master;
 cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr -DWITH_GRASS7=FALSE ../
-make -j 7
+make -j 6
 make -s install
-
-# Linking libraries in standardpath
-#cd /usr/lib64
-#ln -s /usr/lib/libqgis* .
 
 # Clean up.
 apt-get autoremove -y
