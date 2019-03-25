@@ -49,7 +49,7 @@ container, and you have mapped the current working directory on your host to
 
 Similarly
 
-    docker run --rm -it -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=unix:0 -v $(pwd):/data gdal-fits
+    docker run --rm -it -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=unix:1 -v $(pwd):/data gdal-fits
 
 will open QGIS making available the data in your current directory in the `/data` volume.
 
