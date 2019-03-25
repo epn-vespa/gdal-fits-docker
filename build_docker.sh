@@ -31,7 +31,6 @@ rm -rf gdal/.git
 wget -nc https://github.com/qgis/QGIS/archive/final-3_6_0.tar.gz
 tar zxvf final-3_6_0.tar.gz
 
-
 echo "Running: docker build $options -t gdal-fits ."
 docker build $options -t gdal-fits .
 
